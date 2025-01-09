@@ -42,10 +42,10 @@
 ### 2.3 强化学习的训练目标
 
 对于经典的有监督学习任务，我们的目标是找到一个最优的模型函数，使其在训练数据集上最小化一个给定的损失函数。在训练数据独立同分布的假设下，这个优化目标表示最小化模型在整个数据分布上的泛化误差：
-$$model^*=arg\min_{model}\mathbb{E}_{(x,y)\sim p_{data}[\mathcal{L}(x,model(x))]}$$
+$$model^*=\arg\min_{model}\mathbb{E}_{(x,y)\sim p_{data}[\mathcal{L}(x,model(x))]}$$
 
 相比之下，强化学习任务的最终优化目标是最大化智能体策略在和动态环境交互过程中的价值，或者奖励函数在占用度量上的期望：
-$$model^*=arg\min_{\pi}\mathbb{E}_{(s,a)\sim \rho^\pi[\mathcal{R}(s,a)]}$$
+$$model^*=\arg\min_{\pi}\mathbb{E}_{(s,a)\sim \rho^\pi[\mathcal{R}(s,a)]}$$
 
 二者相比，监督学习直接通过优化模型对于数据特征的输出来优化目标，即**修改目标函数而数据分布不变**；而强化学习旨在通过该百年策略来调整智能体与环境交互数据的分布，进而优化目标，即**修改数据分布而目标函数不变**。
 
@@ -104,14 +104,14 @@ $P_{sa}$表示状态转移，此方程即*贝尔曼方程*（Bellman equation）
 ### 4.2 Value Based Method
 
 根据贝尔曼方程，一个直白的优化方式是直接优化使得 $Q_\pi(s,a)$ 最大化的 $\pi$:
-$$\pi(s)=arg\max_a Q(s,a)$$
+$$\pi(s)=\arg\max_a Q(s,a)$$
 
 但是这种方式的弊端在于对于每次优化，需要穷举所有可能的行动，此外，由于 $Q$ 本身在优化过程中不一定是准确的，所以优化的结果也可能是不准确的。
 
 ### 4.3 Policy Based Method
 
 基于策略的方式直接对策略的参数进行优化：
-$$\theta^*=arg\max_\theta\mathbb{E}_{(s,a)\sim\rho^{\pi_\theta}}[r(s,a)]$$
+$$\theta^*=\arg\max_\theta\mathbb{E}_{(s,a)\sim\rho^{\pi_\theta}}[r(s,a)]$$
 
 但是对 $\rho^{\pi_\theta}$ 的建模是困难的，尤其是在变量连续的情况下。
 
@@ -140,3 +140,22 @@ $$\theta^*=arg\max_\theta\mathbb{E}_{(s,a)\sim\rho^{\pi_\theta}}[r(s,a)]$$
 - 多智能体强化学习
 - 离线强化学习
 - 强化学习决策大语言模型
+
+## 6 Fine Tune of LLM
+
+如果想使foundation model在具体的领域有突出的表现而不只是在所有领域有平均的表现，需要通过微调（fine tune）的方式进行模型对齐。
+
+### 6.1 SFT（Supervised Fine Tuning）
+
+SFT是传统的微调方式，通过有监督的训练使模型对齐：
+$$\min_\theta\mathbb{E}_{(x,y)\sim P_{data}}[\mathcal{L}(y,f_\theta(y))]$$
+
+### 6.2 RLFT(Reinforcemance Learning Fine Tuning)
+
+RLFT是一种基于强化学习的微调方式：
+$$\max_\theta\mathbb{E}_{x\sim p_{data},y\sim f_\theta(x)}[\mathcal{R(x,y)}]$$
+
+可见，RLFT有以下特点：
+
+- 过程是自监督的，无需提供标签数据
+- 参数 $\theta$ 的改变会直接影响模型观测到的数据分布
