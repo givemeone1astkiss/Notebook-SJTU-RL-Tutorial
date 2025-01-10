@@ -153,7 +153,7 @@ $$\begin{aligned}
 - 状态价值：
   $$\begin{aligned}
     V^\pi(s)&=\mathbb{E}_\pi[r(S_0,A_0)+\gamma r(S_1,A_1)+\gamma^2 r(S_2,A_2)+\dotsb|S_0=s]\\
-    &=\mathbb{E}_{a\sim\pi(s)}[r(s,a)+\gamma \sum_{s'\in S}P_{s\pi(s)}(s')V^{\pi}(s')]\\
+    &=\mathbb{E}_{a\sim\pi(s)}\left[r(s,a)+\gamma \sum_{s'\in S}P_{s\pi(s)}(s')V^{\pi}(s')\right]\\
     &=\mathbb{E}_{a\sim\pi(s)}[Q^{\pi}(s,a)]
   \end{aligned}$$
 
