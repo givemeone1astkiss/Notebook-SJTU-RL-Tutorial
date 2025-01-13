@@ -197,7 +197,7 @@ $$\forall s,Q^\pi(s,\pi'(s))\geq V^\pi(s)$$
 $$\forall s,V^{\pi'}(s)\geq V^\pi(s)$$
 
 也即 $\pi'$ 的策略价值超过 $\pi$，$\pi'$ 更优秀。
-![策略提升定理](./image/3.1.png)
+![策略提升定理](../image/3.1.png)
 
 #### 5.2.3 ε-Greedy 策略提升定理
 
